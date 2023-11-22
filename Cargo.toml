@@ -1,0 +1,11 @@
+[package]
+name = "assign-resources"
+version = "0.1.0"
+edition = "2021"
+description = "Macro to split up fields of a Peripherals struct into new structs"
+repository = "https://github.com/adamgreig/assign-resources"
+license = "MIT OR Apache-2.0"
+keywords = ["embassy", "pac", "peripherals", "embedded"]
+categories = ["embedded", "no-std", "no-std::no-alloc"]
+
+[dependencies]
