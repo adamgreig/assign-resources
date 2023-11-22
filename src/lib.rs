@@ -54,12 +54,14 @@ macro_rules! assign_resources {
     {
         $(
             $group_name:ident : $group_struct:ident {
-                $($resource_name:ident : $resource_field:ident),*
+                $($resource_name:ident : $resource_field:ident $(=$resource_alias:ident)?),*
                 $(,)?
             }
             $(,)?
         )+
     } => {
+        $($($(type $resource_alias = $resource_field;)?)*)*
+
         #[allow(dead_code,non_snake_case)]
         struct _ResourceAssigs {
             $($group_name : $group_struct),*
