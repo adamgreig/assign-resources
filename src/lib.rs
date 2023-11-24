@@ -69,7 +69,7 @@ macro_rules! assign_resources {
         $(
             #[allow(dead_code,non_snake_case)]
             struct $group_struct {
-                pub $($resource_name: peripherals::$resource_field),*
+                $(pub $resource_name: peripherals::$resource_field),*
             }
         )+
         macro_rules! split_resources (
