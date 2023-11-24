@@ -12,6 +12,9 @@ the `split_resources!()` macro takes `PA12`, `PA11`, and `USB` out of
 similarly creates the field `leds: LedResources` in the returned object. We can
 then move these new structs into our tasks, which access the resources by name.
 
+We can also label some resources with type aliases, so function signatures can
+refer to that type as well.
+
 ```rust
 use embassy_stm32::peripherals;
 
@@ -25,7 +28,7 @@ assign_resources! {
         r: PA2,
         g: PA3,
         b: PA4,
-        tim2: TIM2,
+        tim2: TIM2 = PWMTimer,
     }
 }
 
@@ -34,17 +37,24 @@ async fn usb_task(r: UsbResources) {
     // use r.dp, r.dm, r.usb
 }
 
+async fn setup_leds<'a>(r: LedResources) -> SimplePWM<'a, PWMTimer> {
+    // setup three channel PWM (one for each color)
+}
+
 #[embassy_executor::task]
-async fn led_task(r: LedResources) {
-    // use r.r, r.g, r.b, r.tim2
+async fn led_task(rgb_pwm: SimplePWM<'a, PWMTimer>) {
+    // use rgb_pwm
 }
 
 #[embassy_executor::main]
 async fn main(spawner: embassy_executor::Spawner) {
     let p = embassy_stm32::init(Default::default());
     let r = split_resources!(p);
+
+    let rgb_pwm = setup_leds(r.leds);
+
     spawner.spawn(usb_task(r.usb)).unwrap();
-    spawner.spawn(led_task(r.leds)).unwrap();
+    spawner.spawn(led_task(rgb_pwm)).unwrap();
 
     // can still use p.PA0, p.PA1, etc
 }
