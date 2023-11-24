@@ -54,7 +54,7 @@ macro_rules! assign_resources {
     {
         $(
             $(#[$outer:meta])*
-            $group_name:ident : $visibility:vis $group_struct:ident {
+            $group_name:ident : $group_struct:ident {
                 $(
                     $(#[$inner:ident $($args:tt)*])*
                     $resource_name:ident : $resource_field:ident $(=$resource_alias:ident)?
@@ -73,7 +73,7 @@ macro_rules! assign_resources {
         $(
             #[allow(dead_code,non_snake_case)]
             $(#[$outer])*
-            $visibility struct $group_struct {
+            pub struct $group_struct {
                 $(
                     $(#[$inner $($args)*])*
                     pub $resource_name: peripherals::$resource_field
