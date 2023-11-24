@@ -66,9 +66,9 @@ macro_rules! assign_resources {
     } => {
         $($($(type $resource_alias = peripherals::$resource_field;)?)*)*
 
-        #[allow(dead_code,non_snake_case)]
-        struct _ResourceAssigs {
-            $($group_name : $group_struct),*
+        #[allow(dead_code,non_snake_case,missing_docs)]
+        pub struct _ResourceAssigns {
+            $(pub $group_name : $group_struct),*
         }
         $(
             #[allow(dead_code,non_snake_case)]
@@ -80,14 +80,17 @@ macro_rules! assign_resources {
                 ),*
             }
         )+
+        #[macro_export]
+        /// split_resources macro
         macro_rules! split_resources (
             ($p:ident) => {
-                _ResourceAssigs {
+                _ResourceAssigns {
                     $($group_name: $group_struct {
                         $($resource_name: $p.$resource_field),*
                     }),*
                 }
             }
         );
+        pub use split_resources;
     }
 }
