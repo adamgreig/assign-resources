@@ -81,5 +81,36 @@ macro_rules! assign_resources {
                 }
             }
         );
-    }
+    };
+    {
+            $(
+                $pub:vis $group_name:ident : $group_struct:ident {
+                    $($resource_name:ident : $resource_field:ident $(=$resource_alias:ident)?),*
+                    $(,)?
+                }
+                $(,)?
+            )+
+        } => {
+            $($($($pub type $resource_alias = $resource_field;)?)*)*
+
+            #[allow(dead_code,non_snake_case)]
+            struct _ResourceAssigs {
+                $($group_name : $group_struct),*
+            }
+            $(
+                #[allow(dead_code,non_snake_case)]
+                $pub struct $group_struct {
+                    $(pub $resource_name: peripherals::$resource_field),*
+                }
+            )+
+            macro_rules! split_resources (
+                ($p:ident) => {
+                    _ResourceAssigs {
+                        $($group_name: $group_struct {
+                            $($resource_name: $p.$resource_field),*
+                        }),*
+                    }
+                }
+            );
+        }
 }

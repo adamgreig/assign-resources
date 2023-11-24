@@ -24,7 +24,7 @@ assign_resources! {
         dm: PA11,
         usb: USB,
     }
-    leds: LedResources {
+    pub leds: LedResources {
         r: PA2,
         g: PA3,
         b: PA4,
