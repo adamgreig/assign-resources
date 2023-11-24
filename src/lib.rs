@@ -15,6 +15,9 @@
 /// # Example
 ///
 /// ```
+/// use assign_resources::assign_resources;
+/// use embassy_stm32::peripherals;
+/// 
 /// assign_resources! {
 ///     usb: UsbResources {
 ///         dp: PA12,
@@ -67,7 +70,7 @@ macro_rules! assign_resources {
         $($($(type $resource_alias = peripherals::$resource_field;)?)*)*
 
         #[allow(dead_code,non_snake_case,missing_docs)]
-        pub struct _ResourceAssigns {
+        pub struct AssignedResources {
             $(pub $group_name : $group_struct),*
         }
         $(
@@ -81,16 +84,15 @@ macro_rules! assign_resources {
             }
         )+
         #[macro_export]
-        /// split_resources macro
+        /// `split_resources!` macro
         macro_rules! split_resources (
             ($p:ident) => {
-                _ResourceAssigns {
+                AssignedResources {
                     $($group_name: $group_struct {
                         $($resource_name: $p.$resource_field),*
                     }),*
                 }
             }
         );
-        pub use split_resources;
     }
 }
