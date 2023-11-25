@@ -60,7 +60,7 @@ macro_rules! assign_resources {
             $(,)?
         )+
     } => {
-        $($($(type $resource_alias = $resource_field;)?)*)*
+        $($($(type $resource_alias = peripherals::$resource_field;)?)*)*
 
         #[allow(dead_code,non_snake_case)]
         struct _ResourceAssigs {
