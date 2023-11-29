@@ -9,8 +9,9 @@
 /// and returns a new struct with a field for each of the structs named in `resource_assigs!{}`.
 ///
 /// Defines new structs containing the specified structs from the `peripherals` module,
-/// a top-level struct that contains an instance of each of these new structs, and a macro
-/// that creates the top-level struct and populates it with fields from a `Peripherals` instance.
+/// a top-level struct called `AssignedResources` that contains an instance of each of these new structs,
+/// and a macro that creates the top-level struct and populates it with fields from
+/// a `Peripherals` instance.
 ///
 /// # Example
 ///
@@ -59,9 +60,8 @@ macro_rules! assign_resources {
             $(#[$outer:meta])*
             $group_name:ident : $group_struct:ident {
                 $(
-                    $(#[$inner:ident $($args:tt)*])*
-                    $resource_name:ident : $resource_field:ident $(=$resource_alias:ident)?
-                ),*
+                    $(#[$inner:meta*])*
+                    $resource_name:ident : $resource_field:ident $(=$resource_alias:ident)?),*
                 $(,)?
             }
             $(,)?
@@ -78,7 +78,7 @@ macro_rules! assign_resources {
             $(#[$outer])*
             pub struct $group_struct {
                 $(
-                    $(#[$inner $($args)*])*
+                    $(#[$inner*])*
                     pub $resource_name: peripherals::$resource_field
                 ),*
             }
