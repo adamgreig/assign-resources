@@ -82,7 +82,7 @@ macro_rules! assign_resources {
             }
         )+
 
-        $($($(type $resource_alias = peripherals::$resource_field;)?)*)*
+        $($($(pub type $resource_alias = peripherals::$resource_field;)?)*)*
 
         #[macro_export]
         /// `split_resources!` macro
