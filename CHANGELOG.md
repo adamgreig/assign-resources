@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## v0.4.0 - 2023-12-02
+
+* Rename generated struct to `AssignedResources` and make it pub
+* Make type alises pub
+
 ## v0.3.0 - 2023-11-25
 
 * Fix bug in type aliases
