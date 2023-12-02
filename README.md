@@ -16,6 +16,7 @@ We can also label some resources with type aliases, so function signatures can
 refer to that type as well.
 
 ```rust
+use assign_resources::assign_resources;
 use embassy_stm32::peripherals;
 
 assign_resources! {
@@ -66,3 +67,48 @@ argument for each task instead of potentially very many, and you don't need
 to write out lots of code to split the resources up. If you're targetting
 multiple different hardware, you can use `#[cfg]` to change pin allocations
 in just one place.
+
+
+## Definition in a library
+The following code would go in the library file, i.e., `lib.rs`
+```rust
+use assign_resources::assign_resources;
+use embassy_stm32::peripherals;
+
+assign_resources! {
+    usb: UsbResources {
+        dp: PA12,
+        dm: PA11,
+        usb: USB_OTG_FS,
+    }
+    leds: LedResources {
+        r: PA2,
+        g: PA3,
+        b: PA4,
+        tim2: TIM2,
+    }
+}
+```
+
+and the resources can be accessed from outside, e.g., in `my_bin.rs`:
+```rust
+// import `AssignedResources`, the `split_resources` macro and all custom resources structs from the library
+use my_library::{AssignedResources, LedResources, UsbResources, split_resources};
+
+#[embassy_executor::task]
+async fn usb_task(r: UsbResources) {
+    // use r.dp, r.dm, r.usb
+}
+#[embassy_executor::task]
+async fn led_task(r: LedResources) {
+    // use r.r, r.g, r.b, r.tim2
+}
+#[embassy_executor::main]
+async fn main(spawner: embassy_executor::Spawner) {
+    let p = embassy_stm32::init(Default::default());
+    let r = split_resources!(p);
+    spawner.spawn(usb_task(r.usb)).unwrap();
+    spawner.spawn(led_task(r.leds)).unwrap();
+    // can still use p.PA0, p.PA1, etc
+}
+``````
