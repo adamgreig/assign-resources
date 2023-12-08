@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v0.4.1 - 2023-12-08
+
+* Add `#[allow(missing_docs)]` to the generated type aliases
+
 ## v0.4.0 - 2023-12-02
 
 * Rename generated struct to `AssignedResources` and make it pub
