@@ -91,7 +91,10 @@ macro_rules! assign_resources {
             ($p:ident) => {
                 AssignedResources {
                     $($group_name: $group_struct {
-                        $($resource_name: $p.$resource_field),*
+                        $(
+                            $(#[$inner])*
+                            $resource_name: $p.$resource_field
+                        ),*
                     }),*
                 }
             }
