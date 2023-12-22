@@ -82,8 +82,11 @@ macro_rules! assign_resources {
             }
         )+
 
-        #[allow(missing_docs)]
-        $($($(pub type $resource_alias = peripherals::$resource_field;)?)*)*
+
+        $($($(
+            #[allow(missing_docs)]
+            pub type $resource_alias = peripherals::$resource_field;
+        )?)*)*
 
         #[macro_export]
         /// `split_resources!` macro
