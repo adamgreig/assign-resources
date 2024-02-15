@@ -58,7 +58,7 @@ pub fn assigned_resources(_args: TokenStream, item: TokenStream) -> TokenStream 
 
     let mut aliases = Vec::new();
 
-    // search for "alias" attribute and remove for rendering
+    // search for "alias" attribute and remove/record for rendering
     s.fields.iter_mut().for_each(|field| {
         field.attrs = field
             .attrs
@@ -110,6 +110,10 @@ pub fn assigned_resources(_args: TokenStream, item: TokenStream) -> TokenStream 
         .collect();
     let field_attrs: Vec<Vec<Attribute>> =
         s.fields.iter().cloned().map(|field| field.attrs).collect();
+    let doc = format!(
+        "Extract `{}` from a `Peripherals` instance.",
+        ident.to_string()
+    );
 
     quote! {
         #(
@@ -118,6 +122,7 @@ pub fn assigned_resources(_args: TokenStream, item: TokenStream) -> TokenStream 
 
         #s
 
+        #[doc = #doc]
         macro_rules! #use_macro_ident {
             ( $P:ident ) => {
                 #ident {
