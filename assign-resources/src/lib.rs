@@ -22,7 +22,7 @@ use syn::{Attribute, Ident, ItemStruct, ItemType, Meta, Type};
 ///     r: PA2,
 ///     g: PA3,
 ///     b: PA4,
-///     #[alias(PWMTimer)]
+///     #[alias = PWMTimer]
 ///     tim2: TIM2,
 /// }
 ///

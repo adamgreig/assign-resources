@@ -28,7 +28,7 @@ struct LedResources {
     r: PA2,
     g: PA3,
     b: PA4,
-    #[alias(PWMTimer)] // make an alias for this resource
+    #[alias = PWMTimer] // make an alias for this resource
     tim2: TIM2,
 }
 
