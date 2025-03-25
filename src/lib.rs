@@ -17,8 +17,8 @@
 ///
 /// ```
 /// use assign_resources::assign_resources;
-/// use embassy_stm32::peripherals;
-/// 
+/// use embassy_stm32::{Peri, peripherals};
+///
 /// assign_resources! {
 ///     usb: UsbResources {
 ///         dp: PA12,
@@ -77,7 +77,7 @@ macro_rules! assign_resources {
             pub struct $group_struct {
                 $(
                     $(#[$inner])*
-                    pub $resource_name: peripherals::$resource_field
+                    pub $resource_name: Peri<'static, peripherals::$resource_field>
                 ),*
             }
         )+
@@ -85,7 +85,7 @@ macro_rules! assign_resources {
 
         $($($(
             #[allow(missing_docs)]
-            pub type $resource_alias = peripherals::$resource_field;
+            pub type $resource_alias = Peri<'static, peripherals::$resource_field>;
         )?)*)*
 
         #[macro_export]
