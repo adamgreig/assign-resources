@@ -1,6 +1,6 @@
 [package]
 name = "assign-resources"
-version = "0.4.1"
+version = "0.5.0"
 edition = "2021"
 description = "Macro to split up fields of a Peripherals struct into new structs"
 repository = "https://github.com/adamgreig/assign-resources"

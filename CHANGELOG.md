@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## v0.5.0 - 2025-03-27
+
+* Update for new Embassy peripheral API (#14)
+
 ## v0.4.1 - 2023-12-08
 
 * Add `#[allow(missing_docs)]` to the generated type aliases
