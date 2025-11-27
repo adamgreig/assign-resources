@@ -99,5 +99,21 @@ macro_rules! assign_resources {
                 }
             }
         );
-    }
+    };
+    {
+        $(
+            $(#[$outer:meta])*
+            $group_name:ident : $group_struct:ident {
+                $(
+                    $(#[$inner:meta])*
+                    $resource_name:ident : $resource_field:path $(=$resource_alias:ident)?),*
+                $(,)?
+            }
+            $(,)?
+        )+
+    } => {
+        compile_error!(
+            "This macro does not take full paths to the types, instead it expects `peripherals` and `Peri` to exist in the current scope and one passes in just the names of the peripherals. Like `use embassy_stm32::{peripherals, Peri};` or `use embassy_rp::{peripherals, Peri};`."
+        );
+    };
 }
