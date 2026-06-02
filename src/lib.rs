@@ -99,5 +99,21 @@ macro_rules! assign_resources {
                 }
             }
         );
-    }
+    };
+    {
+        $(
+            $(#[$outer:meta])*
+            $group_name:ident : $group_struct:ident {
+                $(
+                    $(#[$inner:meta])*
+                    $resource_name:ident : $resource_field:path $(=$resource_alias:ident)?),*
+                $(,)?
+            }
+            $(,)?
+        )+
+    } => {
+        compile_error!(
+            "Instead of a path, pass the name of the peripheral directly."
+        );
+    };
 }
